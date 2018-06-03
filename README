@@ -1,0 +1,3 @@
+Usage:
+put clean.sh and process.sh in strains2_training_genomes folder after download 
+process.sh script will assume strains2_training_genomes and strains2_training_metagenomes lie in the same folder.
