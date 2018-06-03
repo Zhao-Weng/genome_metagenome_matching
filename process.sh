@@ -28,7 +28,7 @@ do
 			echo $metaFile
 			outputFile=$dirName-$idx$nextI.sam
 			#echo $outputFile
-			bowtie2 -p 8 -x ../strains2_training_genomes/$dirName/$dirName $metaFile 2>stderr.log 1>$outputFile --local
+			bowtie2 -p 8 -x ../strains2_training_genomes/$dirName/$dirName $metaFile 2>stderr.log 1>$outputFile --local -L 15 --n-ceil L,0,0.2
 			rate=$(cat stderr.log | tail -1 | grep -o '[0-9].[0-9][0-9]')
 			rm stderr.log $outputFile
 			sum=$(echo $sum $rate | awk '{ printf "%f", $1 + $2 }')
