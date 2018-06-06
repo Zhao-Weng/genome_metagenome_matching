@@ -116,4 +116,38 @@ def writeCSV(genomes_path, metagenomes_path, truth_path):
         dp = [genome_name+':'+mg_names[j]]+feature+[truth_mat[i][j]]
         wr.writerow(dp)
 
-writeCSV('strains2_training_genomes', 'strains2_training_metagenomes', 'strains2_TRAINING_truth.txt')
+def writeCSV2(genomes_path, metagenomes_path, truth_path):
+  genomes_names, mg_names, truth_mat = readTruthtable(truth_path)
+  with open('features_31mer.csv', 'w') as f:
+    wr = csv.writer(f)
+
+    for i in range(len(genomes_names)):
+      genome_name = genomes_names[i]
+      genome_path = os.path.join(genomes_path, genome_name+'.fna')
+      print('Parsing '+genome_name+'...')
+      genome = parseGe(genome_path)
+
+      for j in range(len(mg_names)):
+        mglist = []
+        if os.path.isfile(mg_names[j]):
+          with open(mg_names[j], 'rb') as pickle_file:
+            mglist = pickle.load(pickle_file)
+        else:
+          mg_name1 = mg_names[j]+'_1'
+          mg_name2 = mg_names[j]+'_2'
+          mg_path1 = os.path.join(metagenomes_path, mg_name1+'.fastq')
+          mg_path2 = os.path.join(metagenomes_path, mg_name2+'.fastq')
+
+          print('Parsing '+mg_names[j]+'...')
+          mglist1 = parseMeta(mg_path1, j+1)
+          mglist2 = parseMeta(mg_path2, j+1)
+          mglist = mglist1+mglist2
+          with open(mg_names[j], 'wb') as pickle_file:
+            pickle.dump(mglist, pickle_file)
+
+        print('Building feature '+genome_name+':'+mg_names[j]+'...')
+        feature = buildDatapoint(genome, mglist, 31)
+        dp = [genome_name+':'+mg_names[j]]+feature+[truth_mat[i][j]]
+        wr.writerow(dp)
+
+writeCSV2('strains2_training_genomes', 'strains2_training_metagenomes', 'strains2_TRAINING_truth.txt')
