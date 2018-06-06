@@ -1,6 +1,13 @@
 import random, os, csv, pdb
 
 def parseMeta(file_path, num):
+  """
+  a function to parse the metagenome. Extract the sequence string and return a list of strings.
+
+  param:
+    file_path: path of the metagenome file
+    num: the number of metagenome file
+  """
   if num == 1:
     lines_of_file = 150366152
   elif num == 2:
@@ -33,6 +40,13 @@ def parseMeta(file_path, num):
   return return_list
 
 def parseGe(file_path):
+  """
+  a function to parse the genome. Get rid of the node id and concatenate all the sequences into 
+  a long string. Return the concatenated sequence string
+
+  param:
+    file_path: path of the genome file
+  """
   string = ''
   with open(file_path) as fp:
     for line in fp:
@@ -93,32 +107,20 @@ def readTruthtable(truth_table):
   return genomes, meta_genomes, truth_mat
 
 def writeCSV(genomes_path, metagenomes_path, truth_path):
-  genomes_names, mg_names, truth_mat = readTruthtable(truth_path)
-  with open('features.csv', 'w') as f:
-    wr = csv.writer(f)
-    for j in range(len(mg_names)):
-      mg_name1 = mg_names[j]+'_1'
-      mg_name2 = mg_names[j]+'_2'
-      mg_path1 = os.path.join(metagenomes_path, mg_name1+'.fastq')
-      mg_path2 = os.path.join(metagenomes_path, mg_name2+'.fastq')
-      print('Parsing '+mg_names[j]+'...')
-      mglist1 = parseMeta(mg_path1, j+1)
-      mglist2 = parseMeta(mg_path2, j+1)
-      mglist = mglist1+mglist2
-      for i in range(len(genomes_names)):
-        genome_name = genomes_names[i]
-        genome_path = os.path.join(genomes_path, genome_name+'.fna')
-        print('Parsing '+genome_name+'...')
-        genome = parseGe(genome_path)
+  """
+  a function to generate all the feature vectors for each genome vs each metagenome.
+  It will write all the features to a csv file. The csv file will have 160 rows, with 
+  each row as a data point. For each row, it will be made up as three part:
+    First entry: genome_name:metagenome_name
+    Last entry: groundtruth label
+    Rest: feature values
 
-        print('Building feature '+genome_name+':'+mg_names[j]+'...')
-        feature = buildDatapoint(genome, mglist)
-        dp = [genome_name+':'+mg_names[j]]+feature+[truth_mat[i][j]]
-        wr.writerow(dp)
-
-def writeCSV2(genomes_path, metagenomes_path, truth_path):
+  genomes_path: the path of the folder that contains all the genomes
+  metagenomes_path: the path of the folder that contains all the metagenomes
+  truth_path: the path of the groundtruth table
+  """
   genomes_names, mg_names, truth_mat = readTruthtable(truth_path)
-  with open('features_31mer.csv', 'w') as f:
+  with open('features_17mer.csv', 'w') as f:
     wr = csv.writer(f)
 
     for i in range(len(genomes_names)):
@@ -146,8 +148,8 @@ def writeCSV2(genomes_path, metagenomes_path, truth_path):
             pickle.dump(mglist, pickle_file)
 
         print('Building feature '+genome_name+':'+mg_names[j]+'...')
-        feature = buildDatapoint(genome, mglist, 31)
+        feature = buildDatapoint(genome, mglist, 17)
         dp = [genome_name+':'+mg_names[j]]+feature+[truth_mat[i][j]]
         wr.writerow(dp)
 
-writeCSV2('strains2_training_genomes', 'strains2_training_metagenomes', 'strains2_TRAINING_truth.txt')
+writeCSV('strains2_training_genomes', 'strains2_training_metagenomes', 'strains2_TRAINING_truth.txt')
