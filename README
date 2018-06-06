@@ -1,5 +1,6 @@
 Usage:
 
+You need to first create two folders.
 put clean.sh and process.sh in strains2_training_genomes folder after download 
 put all the genomes (fna) file into strains2_training_genomes folder
 put all the metagenomes (fastq) file into strains2_training_metagenomes folder
