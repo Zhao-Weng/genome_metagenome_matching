@@ -1,3 +1,17 @@
 Usage:
+
+You need to first create two folders.
 put clean.sh and process.sh in strains2_training_genomes folder after download 
+put all the genomes (fna) file into strains2_training_genomes folder
+put all the metagenomes (fastq) file into strains2_training_metagenomes folder
+
+./process.sh to run the shell script
+./clean.sh if you want to redo the process
+
+change certain line if necessary (if you only want to run certain column of data)
+
+parse.py and parse_meta.py to parse the genomes into a long string and parse metagenomes into a list of strings
+
+gidx.py to generate the features in csv format.
+
 process.sh script will assume strains2_training_genomes and strains2_training_metagenomes lie in the same folder.
