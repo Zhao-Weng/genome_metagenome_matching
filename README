@@ -7,6 +7,7 @@ put all the metagenomes (fastq) file into strains2_training_metagenomes folder
 
 ./process.sh to run the shell script
 ./clean.sh if you want to redo the process
+python gidx.py to generate the features. Note that you have to download all the genomes and put them in the "strains_training_genomes" folder and put all the metagenomes in the "strains_training_metagenomes" folder. You also need to download the truthtable. All these files and folders should be at the same directory asthe gidx.py file
 
 change certain line if necessary (if you only want to run certain column of data)
 
