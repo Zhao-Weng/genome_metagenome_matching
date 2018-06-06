@@ -16,3 +16,6 @@ parse.py and parse_meta.py to parse the genomes into a long string and parse met
 gidx.py to generate the features in csv format.
 
 process.sh script will assume strains2_training_genomes and strains2_training_metagenomes lie in the same folder.
+
+
+Data can be accessed via: https://platform.mosaicbiome.com/workspaces/219/files
