@@ -5,17 +5,16 @@ put clean.sh and process.sh in strains2_training_genomes folder after download
 put all the genomes (fna) file into strains2_training_genomes folder
 put all the metagenomes (fastq) file into strains2_training_metagenomes folder
 
+process.sh script will assume strains2_training_genomes and strains2_training_metagenomes lie in the same folder.
 ./process.sh to run the shell script
 ./clean.sh if you want to redo the process
-python gidx.py to generate the features. Note that you have to download all the genomes and put them in the "strains_training_genomes" folder and put all the metagenomes in the "strains_training_metagenomes" folder. You also need to download the truthtable. All these files and folders should be at the same directory asthe gidx.py file
 
 change certain line if necessary (if you only want to run certain column of data)
 
-parse.py and parse_meta.py to parse the genomes into a long string and parse metagenomes into a list of strings
+run  `python gidx.py` parses the genomes into a long string, parse metagenomes into a list of strings, and generates the features in csv format.
+run `python model.py` to train sigmoid or neural network on generated features and labels data
 
-gidx.py to generate the features in csv format.
 
-process.sh script will assume strains2_training_genomes and strains2_training_metagenomes lie in the same folder.
 
 
 Data can be accessed via: https://platform.mosaicbiome.com/workspaces/219/files
